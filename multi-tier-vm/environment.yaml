@@ -1,0 +1,171 @@
+schemaVersion: 1.0
+name: Multi-Tier VM Environment
+description: |
+  Deploy a configurable multi-tier application architecture with VMs distributed across
+  Azure Availability Zones for high availability. Each tier is isolated in its own subnet
+  with network security rules enforcing tier-to-tier communication.
+  
+  Supported configurations: 2 or 3 tiers, with 1-5 VMs per tier.
+  
+  Tier Architecture:
+  - Tier 1 (Web): Public-facing, has public IPs, accessible from internet
+  - Tier 2 (App): Private, accessible only from Tier 1
+  - Tier 3 (Data): Private, accessible only from Tier 2
+  
+  All VMs are distributed across available Availability Zones for resilience.
+
+parameters:
+  - id: environment_name
+    name: Environment Name
+    description: Name for this environment (used for all resource naming)
+    required: true
+    type: string
+    default: multitier
+    validation:
+      pattern: ^[a-z0-9-]{1,20}$
+      message: Must be lowercase alphanumeric and hyphens, max 20 characters
+
+  - id: location
+    name: Azure Region
+    description: Azure region for deployment
+    required: false
+    type: string
+    default: eastus
+    allowedValues:
+      - eastus
+      - eastus2
+      - westus
+      - westus2
+      - westus3
+      - centralus
+      - northeurope
+      - westeurope
+      - southeastasia
+      - eastasia
+      - japaneast
+
+  - id: num_tiers
+    name: Number of Tiers
+    description: |
+      Architecture layers: 2 (web+app) or 3 (web+app+data)
+    required: false
+    type: int
+    default: 3
+    allowedValues:
+      - 2
+      - 3
+
+  - id: vms_per_tier
+    name: VMs per Tier
+    description: |
+      Number of VM replicas in each tier for load balancing and redundancy
+      (1-5). Each VM will be placed in a different Availability Zone when possible.
+    required: false
+    type: int
+    default: 2
+    allowedValues:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+
+  - id: vm_size
+    name: VM Size
+    description: |
+      Azure VM size for all tier VMs. Choose based on workload requirements.
+      B-series: Cost-effective, burstable workloads
+      D-series: General purpose, sustained compute
+      E-series: Memory optimized
+    required: false
+    type: string
+    default: Standard_B2s
+    allowedValues:
+      - Standard_B1s
+      - Standard_B1ms
+      - Standard_B2s
+      - Standard_B2ms
+      - Standard_B4ms
+      - Standard_D1_v2
+      - Standard_D2_v2
+      - Standard_D2s_v3
+      - Standard_D4s_v3
+      - Standard_E2_v3
+      - Standard_E4_v3
+
+  - id: admin_username
+    name: Admin Username
+    description: |
+      Username for VM administrative access via SSH.
+      Common values: azureuser, ubuntu, admin
+    required: false
+    type: string
+    default: azureuser
+
+  - id: ssh_public_key_path
+    name: SSH Public Key Path
+    description: |
+      Path to your SSH public key file for passwordless authentication.
+      Default: ~/.ssh/id_rsa.pub
+      
+      To create keys if you don't have them:
+      ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa
+    required: false
+    type: string
+    default: ~/.ssh/id_rsa.pub
+
+  - id: enable_security_baseline
+    name: Enable Security Baseline
+    description: |
+      Apply Azure Linux security baseline compliance to all VMs.
+      Installs and configures:
+      - auditd (system auditing)
+      - aide (file integrity monitoring)
+      - chrony (time synchronization)
+      - Kernel hardening parameters
+      - SSH security configurations
+    required: false
+    type: bool
+    default: true
+
+  - id: enable_update_manager
+    name: Enable Azure Update Manager v2
+    description: |
+      Enable automatic patch management via Azure Update Manager v2.
+      Provides:
+      - Centralized patch assessment and installation
+      - Scheduled maintenance windows
+      - Update status tracking and reporting
+      - Integration with Log Analytics for compliance monitoring
+      - No Automation Account dependency (v2)
+    required: false
+    type: bool
+    default: true
+
+  - id: patch_assessment_frequency
+    name: Patch Assessment Frequency
+    description: |
+      How often to assess VMs for available patches.
+      Daily: Check every 24 hours
+      Weekly: Check every 7 days (recommended)
+      Monthly: Check every 30 days
+    required: false
+    type: string
+    default: Weekly
+    allowedValues:
+      - Daily
+      - Weekly
+      - Monthly
+
+  - id: enable_guest_config
+    name: Enable Guest Configuration
+    description: |
+      Enable Azure Guest Configuration for compliance monitoring.
+      Monitors VMs for policy compliance including:
+      - Security settings
+      - Software installation state
+      - Configuration drift detection
+      - Real-time compliance reporting
+    required: false
+    type: bool
+    default: true

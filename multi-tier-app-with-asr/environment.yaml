@@ -1,0 +1,163 @@
+schemaVersion: 1.0
+name: Multi-Tier App Service with ASR
+description: |
+  Deploy a highly available multi-tier application architecture with Web Apps and SQL Database,
+  with optional Azure Site Recovery (ASR) for disaster recovery failover to a secondary region.
+  
+  Architecture:
+  - Tier 1 (Web): Public-facing web layer
+  - Tier 2 (App): Business logic layer
+  - Tier 3 (Data): Database layer with ASR failover support
+  
+  Each tier has its own App Service Plan, Web Apps, and SQL Database. When ASR is enabled,
+  all resources are replicated to a secondary region with automatic failover capabilities.
+  
+  Features:
+  - Multi-region deployment (ASR enabled)
+  - SQL Failover Groups for automatic database failover
+  - Application Insights for monitoring both regions
+  - VNet integration for tier separation
+  - Configurable tier count (2 or 3) and instance count per tier
+
+parameters:
+  - id: environment_name
+    name: Environment Name
+    description: Name for this environment (used for all resource naming)
+    required: true
+    type: string
+    default: multiapp
+    validation:
+      pattern: ^[a-z0-9-]{1,20}$
+      message: Must be lowercase alphanumeric and hyphens, max 20 characters
+
+  - id: primary_location
+    name: Primary Region
+    description: Primary Azure region for active resources
+    required: false
+    type: string
+    default: eastus
+    allowedValues:
+      - eastus
+      - eastus2
+      - westus
+      - westus2
+      - westus3
+      - centralus
+      - northeurope
+      - westeurope
+      - southeastasia
+      - eastasia
+      - japaneast
+
+  - id: secondary_location
+    name: Secondary Region
+    description: Secondary region for ASR failover. Must be different from primary.
+    required: false
+    type: string
+    default: westus
+    allowedValues:
+      - eastus
+      - eastus2
+      - westus
+      - westus2
+      - westus3
+      - centralus
+      - northeurope
+      - westeurope
+      - southeastasia
+      - eastasia
+      - japaneast
+
+  - id: enable_asr
+    name: Enable ASR
+    description: |
+      Enable Azure Site Recovery for multi-region failover capability.
+      When enabled, all resources are replicated to the secondary region with automatic failover.
+      Increases costs but provides disaster recovery capability.
+    required: false
+    type: bool
+    default: true
+
+  - id: num_tiers
+    name: Number of Tiers
+    description: |
+      Application architecture tiers: 2 (web+app) or 3 (web+app+data)
+    required: false
+    type: int
+    default: 3
+    allowedValues:
+      - 2
+      - 3
+
+  - id: num_instances_per_tier
+    name: Instances per Tier
+    description: |
+      Number of App Service instances per tier (1-5) for load balancing.
+      Each instance gets its own SQL database.
+    required: false
+    type: int
+    default: 2
+    allowedValues:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+
+  - id: tier_sku_configs
+    name: Tier SKU Configuration
+    description: |
+      SQL and App Service tier configuration.
+      Standard S1: Single core, 1.75GB RAM (~$100/month)
+      Standard S2: Two cores, 3.5GB RAM (~$200/month)
+      Premium P1: Four cores, 7GB RAM (~$300/month)
+    required: false
+    type: object
+    default:
+      tier1:
+        tier: Standard
+        size: S1
+      tier2:
+        tier: Standard
+        size: S1
+      tier3:
+        tier: Standard
+        size: S1
+
+  - id: enable_app_insights
+    name: Enable Application Insights
+    description: |
+      Enable Azure Application Insights for performance monitoring and diagnostics.
+      Provides insights into application performance, errors, and dependencies.
+    required: false
+    type: bool
+    default: true
+
+  - id: db_admin_username
+    name: Database Admin Username
+    description: |
+      SQL Database administrator login name.
+      Must be 1-128 characters, can't be 'admin', 'sa', 'root', etc.
+    required: false
+    type: string
+    default: azadmin
+    validation:
+      pattern: ^[a-zA-Z_][a-zA-Z0-9_]{0,127}$
+      message: Must start with letter or underscore, alphanumeric and underscores only
+
+  - id: db_admin_password
+    name: Database Admin Password
+    description: |
+      SQL Database administrator password (12+ characters recommended).
+      Must contain:
+      - At least 8 characters
+      - Uppercase letter
+      - Lowercase letter
+      - Number
+      
+      Example: P@ssw0rdExample123
+    required: true
+    type: secureString
+    validation:
+      pattern: ^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$
+      message: Must be 8+ chars with uppercase, lowercase, and number

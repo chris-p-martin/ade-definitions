@@ -1,0 +1,57 @@
+id: app-service-sql
+name: Web App with SQL Database
+description: A preconfigured App Service and SQL Database for web applications
+author: Platform Engineering
+language: terraform
+type: webAppEnvironment
+parameters:
+  - id: environment_name
+    name: Environment Name
+    description: Unique name for your environment (lowercase alphanumeric, max 20 chars)
+    required: true
+    default: myapp
+  
+  - id: location
+    name: Azure Region
+    description: Azure region where resources will be deployed
+    required: false
+    default: eastus
+    allowedValues:
+      - eastus
+      - westus
+      - westus2
+      - eastus2
+      - northeurope
+      - westeurope
+      - southeastasia
+  
+  - id: app_service_sku
+    name: App Service Plan SKU
+    description: Size and pricing tier for App Service
+    required: false
+    default: B1
+    allowedValues:
+      - B1
+      - B2
+      - B3
+      - S1
+      - S2
+      - S3
+  
+  - id: sql_admin_username
+    name: SQL Admin Username
+    description: Administrator username for SQL Server
+    required: false
+    default: sqladmin
+  
+  - id: sql_admin_password
+    name: SQL Admin Password
+    description: Administrator password for SQL Server (must be 8+ chars with mixed case and numbers)
+    required: true
+    default: ""
+  
+  - id: database_name
+    name: Database Name
+    description: Name of the SQL database to create
+    required: false
+    default: appdb
