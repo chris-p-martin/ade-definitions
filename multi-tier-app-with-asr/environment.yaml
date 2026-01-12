@@ -1,23 +1,6 @@
 schemaVersion: 1.0
 name: Multi-Tier App Service with ASR
-description: |
-  Deploy a highly available multi-tier application architecture with Web Apps and SQL Database,
-  with optional Azure Site Recovery (ASR) for disaster recovery failover to a secondary region.
-  
-  Architecture:
-  - Tier 1 (Web): Public-facing web layer
-  - Tier 2 (App): Business logic layer
-  - Tier 3 (Data): Database layer with ASR failover support
-  
-  Each tier has its own App Service Plan, Web Apps, and SQL Database. When ASR is enabled,
-  all resources are replicated to a secondary region with automatic failover capabilities.
-  
-  Features:
-  - Multi-region deployment (ASR enabled)
-  - SQL Failover Groups for automatic database failover
-  - Application Insights for monitoring both regions
-  - VNet integration for tier separation
-  - Configurable tier count (2 or 3) and instance count per tier
+description: Deploy a highly available multi-tier application architecture with Web Apps and SQL Database, with optional Azure Site Recovery for disaster recovery failover to a secondary region.
 
 parameters:
   - id: environment_name
@@ -36,7 +19,7 @@ parameters:
     required: false
     type: string
     default: eastus
-    allowedValues:
+    allowed_values:
       - eastus
       - eastus2
       - westus
@@ -55,7 +38,7 @@ parameters:
     required: false
     type: string
     default: westus
-    allowedValues:
+    allowed_values:
       - eastus
       - eastus2
       - westus
@@ -70,34 +53,28 @@ parameters:
 
   - id: enable_asr
     name: Enable ASR
-    description: |
-      Enable Azure Site Recovery for multi-region failover capability.
-      When enabled, all resources are replicated to the secondary region with automatic failover.
-      Increases costs but provides disaster recovery capability.
+    description: Enable Azure Site Recovery for multi-region failover capability with automatic failover and disaster recovery.
     required: false
-    type: bool
+    type: boolean
     default: true
 
   - id: num_tiers
     name: Number of Tiers
-    description: |
-      Application architecture tiers: 2 (web+app) or 3 (web+app+data)
+    description: Application architecture tiers - 2 for web+app or 3 for web+app+data
     required: false
     type: int
     default: 3
-    allowedValues:
+    allowed_values:
       - 2
       - 3
 
   - id: num_instances_per_tier
     name: Instances per Tier
-    description: |
-      Number of App Service instances per tier (1-5) for load balancing.
-      Each instance gets its own SQL database.
+    description: Number of App Service instances per tier (1-5) for load balancing
     required: false
     type: int
     default: 2
-    allowedValues:
+    allowed_values:
       - 1
       - 2
       - 3
@@ -106,11 +83,7 @@ parameters:
 
   - id: tier_sku_configs
     name: Tier SKU Configuration
-    description: |
-      SQL and App Service tier configuration.
-      Standard S1: Single core, 1.75GB RAM (~$100/month)
-      Standard S2: Two cores, 3.5GB RAM (~$200/month)
-      Premium P1: Four cores, 7GB RAM (~$300/month)
+    description: SQL and App Service tier configuration (Standard S1/S2 or Premium P1)
     required: false
     type: object
     default:
@@ -126,18 +99,14 @@ parameters:
 
   - id: enable_app_insights
     name: Enable Application Insights
-    description: |
-      Enable Azure Application Insights for performance monitoring and diagnostics.
-      Provides insights into application performance, errors, and dependencies.
+    description: Enable Azure Application Insights for performance monitoring and diagnostics
     required: false
-    type: bool
+    type: boolean
     default: true
 
   - id: db_admin_username
     name: Database Admin Username
-    description: |
-      SQL Database administrator login name.
-      Must be 1-128 characters, can't be 'admin', 'sa', 'root', etc.
+    description: SQL Database administrator login name (1-128 characters, avoid reserved names like admin or sa)
     required: false
     type: string
     default: azadmin
@@ -147,15 +116,7 @@ parameters:
 
   - id: db_admin_password
     name: Database Admin Password
-    description: |
-      SQL Database administrator password (12+ characters recommended).
-      Must contain:
-      - At least 8 characters
-      - Uppercase letter
-      - Lowercase letter
-      - Number
-      
-      Example: P@ssw0rdExample123
+    description: SQL Database administrator password (12+ characters with uppercase, lowercase, and number)
     required: true
     type: secureString
     validation:

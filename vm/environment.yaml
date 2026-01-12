@@ -10,13 +10,13 @@ parameters:
     description: Unique name for your environment (lowercase alphanumeric, max 20 chars)
     required: true
     default: myenv
-  
+
   - id: location
     name: Azure Region
     description: Azure region where resources will be deployed
     required: false
     default: eastus
-    allowedValues:
+    allowed_values:
       - eastus
       - westus
       - westus2
@@ -24,20 +24,20 @@ parameters:
       - northeurope
       - westeurope
       - southeastasia
-  
+
   - id: vm_size
     name: VM Size
     description: Size of the virtual machine
     required: false
     default: Standard_B2s
-    allowedValues:
+    allowed_values:
       - Standard_B1s
       - Standard_B1ms
       - Standard_B2s
       - Standard_B2ms
       - Standard_D2s_v3
       - Standard_D4s_v3
-  
+
   - id: admin_username
     name: Admin Username
     description: Username for VM administrator access
@@ -46,31 +46,21 @@ parameters:
 
   - id: enable_security_baseline
     name: Enable Security Baseline
-    description: |
-      Apply Azure Linux security baseline compliance to the VM.
-      Installs and configures:
-      - auditd (system auditing)
-      - aide (file integrity monitoring)
-      - chrony (time synchronization)
-      - Kernel hardening parameters
+    description: Apply Azure Linux security baseline compliance to the VM. Installs auditd, aide, chrony, and kernel hardening.
     required: false
-    type: bool
+    type: boolean
     default: true
 
   - id: enable_update_manager
     name: Enable Azure Update Manager v2
-    description: |
-      Enable automatic patch management via Azure Update Manager v2.
-      Provides centralized patch assessment and installation.
+    description: Enable automatic patch management via Azure Update Manager v2 for centralized patch assessment and installation.
     required: false
-    type: bool
+    type: boolean
     default: true
 
   - id: patch_assessment_frequency
     name: Patch Assessment Frequency
-    description: |
-      How often to assess VMs for available patches.
-      Options: Daily, Weekly, Monthly
+    description: How often to assess VMs for available patches
     required: false
     type: string
     default: Weekly
@@ -81,9 +71,7 @@ parameters:
 
   - id: enable_guest_config
     name: Enable Guest Configuration
-    description: |
-      Enable Azure Guest Configuration for compliance monitoring
-      and policy compliance enforcement.
+    description: Enable Azure Guest Configuration for compliance monitoring and policy enforcement.
     required: false
-    type: bool
+    type: boolean
     default: true
