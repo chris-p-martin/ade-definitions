@@ -80,22 +80,6 @@ parameters:
       - 4
       - 5
 
-  - id: tier_sku_configs
-    name: Tier SKU Configuration
-    description: SQL and App Service tier configuration (Standard or Premium)
-    type: object
-    required: false
-    default:
-      tier1:
-        tier: Standard
-        size: S1
-      tier2:
-        tier: Standard
-        size: S1
-      tier3:
-        tier: Standard
-        size: S1
-
   - id: enable_app_insights
     name: Enable Application Insights
     description: Enable Azure Application Insights for performance monitoring
