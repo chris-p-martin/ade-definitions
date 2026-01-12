@@ -3,7 +3,6 @@ version: 1.0.0
 summary: Configurable multi-tier VM architecture with AZs
 description: Deploy a configurable multi-tier application architecture with VMs distributed across Azure Availability Zones for high availability.
 runner: Terraform
-templateId: multi-tier-vm
 templatePath: main.tf
 
 parameters:

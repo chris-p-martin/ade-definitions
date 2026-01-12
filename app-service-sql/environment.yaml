@@ -3,7 +3,6 @@ version: 1.0.0
 summary: Two-tier web application with App Service and SQL Database
 description: A preconfigured App Service and SQL Database for web applications with configurable SKU and database settings.
 runner: Terraform
-templateId: app-service-sql
 templatePath: main.tf
 
 parameters:
