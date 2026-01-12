@@ -66,3 +66,32 @@ parameters:
     allowed:
       - 2
       - 3
+
+  - id: num_instances_per_tier
+    name: Instances per Tier
+    description: Number of App Service instances per tier for load balancing (1-5)
+    type: integer
+    required: false
+    default: 2
+    allowed:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+
+  - id: tier_sku_configs
+    name: Tier SKU Configuration
+    description: SQL and App Service tier configuration (Standard or Premium)
+    type: object
+    required: false
+    default:
+      tier1:
+        tier: Standard
+        size: S1
+      tier2:
+        tier: Standard
+        size: S1
+      tier3:
+        tier: Standard
+        size: S1
