@@ -66,3 +66,39 @@ parameters:
     allowed:
       - 2
       - 3
+
+  - id: tier_sku_configs
+    name: Tier SKU Configuration
+    description: SQL and App Service tier configuration (Standard or Premium)
+    type: object
+    required: false
+    default:
+      tier1:
+        tier: Standard
+        size: S1
+      tier2:
+        tier: Standard
+        size: S1
+      tier3:
+        tier: Standard
+        size: S1
+
+  - id: enable_app_insights
+    name: Enable Application Insights
+    description: Enable Azure Application Insights for performance monitoring
+    type: boolean
+    required: false
+    default: true
+
+  - id: db_admin_username
+    name: Database Admin Username
+    description: SQL Database administrator login name (avoid reserved names like admin or sa)
+    type: string
+    required: false
+    default: azadmin
+
+  - id: db_admin_password
+    name: Database Admin Password
+    description: SQL Database administrator password (8+ chars with uppercase, lowercase, number)
+    type: string
+    required: true
