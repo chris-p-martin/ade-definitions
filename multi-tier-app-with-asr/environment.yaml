@@ -56,3 +56,13 @@ parameters:
     type: boolean
     required: false
     default: true
+
+  - id: num_tiers
+    name: Number of Tiers
+    description: Number of application tiers (2 for web+app, 3 for web+app+data)
+    type: integer
+    required: false
+    default: 3
+    allowed:
+      - 2
+      - 3
