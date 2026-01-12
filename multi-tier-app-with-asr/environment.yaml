@@ -49,3 +49,10 @@ parameters:
       - southeastasia
       - eastasia
       - japaneast
+      
+  - id: enable_asr
+    name: Enable ASR
+    description: Enable Azure Site Recovery for multi-region failover capability
+    type: boolean
+    required: false
+    default: true
