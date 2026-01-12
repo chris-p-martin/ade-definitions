@@ -1,25 +1,24 @@
-schemaVersion: 1.0
 name: Multi-Tier VM Environment
-description: Deploy a configurable multi-tier application architecture with VMs distributed across Azure Availability Zones for high availability and isolation.
+version: 1.0.0
+summary: Configurable multi-tier VM architecture with AZs
+description: Deploy a configurable multi-tier application architecture with VMs distributed across Azure Availability Zones for high availability.
+runner: Terraform
+templateId: multi-tier-vm
+templatePath: main.tf
 
 parameters:
   - id: environment_name
     name: Environment Name
-    description: Name for this environment (used for all resource naming)
+    description: Name for this environment (1-20 chars, lowercase alphanumeric and hyphens)
     required: true
-    type: string
     default: multitier
-    validation:
-      pattern: ^[a-z0-9-]{1,20}$
-      message: Must be lowercase alphanumeric and hyphens, max 20 characters
 
   - id: location
     name: Azure Region
     description: Azure region for deployment
     required: false
-    type: string
     default: eastus
-    allowed_values:
+    allowed:
       - eastus
       - eastus2
       - westus
@@ -34,21 +33,19 @@ parameters:
 
   - id: num_tiers
     name: Number of Tiers
-    description: Architecture layers - 2 for web+app or 3 for web+app+data
+    description: Number of application tiers (2 for web+app, 3 for web+app+data)
     required: false
-    type: int
     default: 3
-    allowed_values:
+    allowed:
       - 2
       - 3
 
   - id: vms_per_tier
     name: VMs per Tier
-    description: Number of VM replicas in each tier for load balancing and redundancy (1-5)
+    description: Number of VM replicas in each tier for load balancing (1-5)
     required: false
-    type: int
     default: 2
-    allowed_values:
+    allowed:
       - 1
       - 2
       - 3
@@ -57,11 +54,10 @@ parameters:
 
   - id: vm_size
     name: VM Size
-    description: Azure VM size - B-series for burstable, D-series for general purpose, E-series for memory optimized
+    description: Azure VM size for all tier VMs
     required: false
-    type: string
     default: Standard_B2s
-    allowed_values:
+    allowed:
       - Standard_B1s
       - Standard_B1ms
       - Standard_B2s
@@ -76,39 +72,34 @@ parameters:
 
   - id: admin_username
     name: Admin Username
-    description: Username for VM administrative access via SSH (e.g., azureuser, ubuntu, admin)
+    description: Username for VM administrative access via SSH
     required: false
-    type: string
     default: azureuser
 
   - id: ssh_public_key_path
     name: SSH Public Key Path
-    description: Path to SSH public key file for passwordless authentication (default ~/.ssh/id_rsa.pub)
+    description: Path to SSH public key file for passwordless authentication
     required: false
-    type: string
     default: ~/.ssh/id_rsa.pub
 
   - id: enable_security_baseline
     name: Enable Security Baseline
     description: Apply Azure Linux security baseline compliance to all VMs
     required: false
-    type: boolean
     default: true
 
   - id: enable_update_manager
     name: Enable Azure Update Manager v2
     description: Enable automatic patch management via Azure Update Manager v2
     required: false
-    type: boolean
     default: true
 
   - id: patch_assessment_frequency
     name: Patch Assessment Frequency
-    description: How often to assess VMs for available patches (Daily, Weekly, or Monthly)
+    description: How often to assess VMs for available patches
     required: false
-    type: string
     default: Weekly
-    allowed_values:
+    allowed:
       - Daily
       - Weekly
       - Monthly
@@ -117,5 +108,4 @@ parameters:
     name: Enable Guest Configuration
     description: Enable Azure Guest Configuration for compliance monitoring
     required: false
-    type: boolean
     default: true

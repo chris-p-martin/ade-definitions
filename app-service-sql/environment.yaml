@@ -1,9 +1,11 @@
-id: app-service-sql
 name: Web App with SQL Database
-description: A preconfigured App Service and SQL Database for web applications
-author: Platform Engineering
-language: terraform
-type: webAppEnvironment
+version: 1.0.0
+summary: Two-tier web application with App Service and SQL Database
+description: A preconfigured App Service and SQL Database for web applications with configurable SKU and database settings.
+runner: Terraform
+templateId: app-service-sql
+templatePath: main.tf
+
 parameters:
   - id: environment_name
     name: Environment Name
@@ -16,7 +18,7 @@ parameters:
     description: Azure region where resources will be deployed
     required: false
     default: eastus
-    allowed_values:
+    allowed:
       - eastus
       - westus
       - westus2
@@ -30,7 +32,7 @@ parameters:
     description: Size and pricing tier for App Service
     required: false
     default: B1
-    allowed_values:
+    allowed:
       - B1
       - B2
       - B3
@@ -46,7 +48,7 @@ parameters:
 
   - id: sql_admin_password
     name: SQL Admin Password
-    description: Administrator password for SQL Server (must be 8+ chars with mixed case and numbers)
+    description: Administrator password for SQL Server (8+ chars with mixed case and numbers)
     required: true
 
   - id: database_name

@@ -1,25 +1,24 @@
-schemaVersion: 1.0
 name: Multi-Tier App Service with ASR
-description: Deploy a highly available multi-tier application architecture with Web Apps and SQL Database, with optional Azure Site Recovery for disaster recovery failover to a secondary region.
+version: 1.0.0
+summary: Multi-tier app with optional multi-region ASR failover
+description: Deploy a highly available multi-tier application architecture with Web Apps and SQL Database, with optional Azure Site Recovery for disaster recovery.
+runner: Terraform
+templateId: multi-tier-app-with-asr
+templatePath: main.tf
 
 parameters:
   - id: environment_name
     name: Environment Name
-    description: Name for this environment (used for all resource naming)
+    description: Name for this environment (1-20 chars, lowercase alphanumeric and hyphens)
     required: true
-    type: string
     default: multiapp
-    validation:
-      pattern: ^[a-z0-9-]{1,20}$
-      message: Must be lowercase alphanumeric and hyphens, max 20 characters
 
   - id: primary_location
     name: Primary Region
     description: Primary Azure region for active resources
     required: false
-    type: string
     default: eastus
-    allowed_values:
+    allowed:
       - eastus
       - eastus2
       - westus
@@ -34,11 +33,10 @@ parameters:
 
   - id: secondary_location
     name: Secondary Region
-    description: Secondary region for ASR failover. Must be different from primary.
+    description: Secondary region for ASR failover (must be different from primary)
     required: false
-    type: string
     default: westus
-    allowed_values:
+    allowed:
       - eastus
       - eastus2
       - westus
@@ -53,28 +51,25 @@ parameters:
 
   - id: enable_asr
     name: Enable ASR
-    description: Enable Azure Site Recovery for multi-region failover capability with automatic failover and disaster recovery.
+    description: Enable Azure Site Recovery for multi-region failover capability
     required: false
-    type: boolean
     default: true
 
   - id: num_tiers
     name: Number of Tiers
-    description: Application architecture tiers - 2 for web+app or 3 for web+app+data
+    description: Number of application tiers (2 for web+app, 3 for web+app+data)
     required: false
-    type: int
     default: 3
-    allowed_values:
+    allowed:
       - 2
       - 3
 
   - id: num_instances_per_tier
     name: Instances per Tier
-    description: Number of App Service instances per tier (1-5) for load balancing
+    description: Number of App Service instances per tier for load balancing (1-5)
     required: false
-    type: int
     default: 2
-    allowed_values:
+    allowed:
       - 1
       - 2
       - 3
@@ -83,9 +78,8 @@ parameters:
 
   - id: tier_sku_configs
     name: Tier SKU Configuration
-    description: SQL and App Service tier configuration (Standard S1/S2 or Premium P1)
+    description: SQL and App Service tier configuration (Standard or Premium)
     required: false
-    type: object
     default:
       tier1:
         tier: Standard
@@ -99,26 +93,17 @@ parameters:
 
   - id: enable_app_insights
     name: Enable Application Insights
-    description: Enable Azure Application Insights for performance monitoring and diagnostics
+    description: Enable Azure Application Insights for performance monitoring
     required: false
-    type: boolean
     default: true
 
   - id: db_admin_username
     name: Database Admin Username
-    description: SQL Database administrator login name (1-128 characters, avoid reserved names like admin or sa)
+    description: SQL Database administrator login name (avoid reserved names like admin or sa)
     required: false
-    type: string
     default: azadmin
-    validation:
-      pattern: ^[a-zA-Z_][a-zA-Z0-9_]{0,127}$
-      message: Must start with letter or underscore, alphanumeric and underscores only
 
   - id: db_admin_password
     name: Database Admin Password
-    description: SQL Database administrator password (12+ characters with uppercase, lowercase, and number)
+    description: SQL Database administrator password (8+ chars with uppercase, lowercase, number)
     required: true
-    type: secureString
-    validation:
-      pattern: ^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$
-      message: Must be 8+ chars with uppercase, lowercase, and number

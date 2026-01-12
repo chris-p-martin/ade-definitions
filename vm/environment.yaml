@@ -1,9 +1,11 @@
-id: vm
 name: Linux Virtual Machine
-description: A preconfigured Linux VM with networking, NSG, and SSH access
-author: Platform Engineering
-language: terraform
-type: vmEnvironment
+version: 1.0.0
+summary: Linux VM with security baseline and patch management
+description: A preconfigured Linux VM with networking, NSG, SSH access, security baseline, and Azure Update Manager v2.
+runner: Terraform
+templateId: vm
+templatePath: main.tf
+
 parameters:
   - id: environment_name
     name: Environment Name
@@ -16,7 +18,7 @@ parameters:
     description: Azure region where resources will be deployed
     required: false
     default: eastus
-    allowed_values:
+    allowed:
       - eastus
       - westus
       - westus2
@@ -30,7 +32,7 @@ parameters:
     description: Size of the virtual machine
     required: false
     default: Standard_B2s
-    allowed_values:
+    allowed:
       - Standard_B1s
       - Standard_B1ms
       - Standard_B2s
@@ -46,32 +48,28 @@ parameters:
 
   - id: enable_security_baseline
     name: Enable Security Baseline
-    description: Apply Azure Linux security baseline compliance to the VM. Installs auditd, aide, chrony, and kernel hardening.
+    description: Apply Azure Linux security baseline compliance to the VM
     required: false
-    type: boolean
     default: true
 
   - id: enable_update_manager
     name: Enable Azure Update Manager v2
-    description: Enable automatic patch management via Azure Update Manager v2 for centralized patch assessment and installation.
+    description: Enable automatic patch management via Azure Update Manager v2
     required: false
-    type: boolean
     default: true
 
   - id: patch_assessment_frequency
     name: Patch Assessment Frequency
     description: How often to assess VMs for available patches
     required: false
-    type: string
     default: Weekly
-    allowed_values:
+    allowed:
       - Daily
       - Weekly
       - Monthly
 
   - id: enable_guest_config
     name: Enable Guest Configuration
-    description: Enable Azure Guest Configuration for compliance monitoring and policy enforcement.
+    description: Enable Azure Guest Configuration for compliance monitoring
     required: false
-    type: boolean
     default: true
