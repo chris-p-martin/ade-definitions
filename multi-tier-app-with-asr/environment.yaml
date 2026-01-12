@@ -1,8 +1,8 @@
-name: Multi-Tier App Service with ASR
+name: MultiTierVMwithASR
 version: 1.0.0
 summary: Multi-tier app with optional multi-region ASR failover
 description: Deploy a highly available multi-tier application architecture with Web Apps and SQL Database, with optional Azure Site Recovery for disaster recovery.
-runner: Terraform
+runner: "${containerRegistry}.azurecr.io/terraform-runner:latest"
 templatePath: main.tf
 
 parameters:
