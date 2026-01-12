@@ -11,7 +11,6 @@ parameters:
     description: Name for this environment (1-20 chars, lowercase alphanumeric and hyphens)
     type: string
     required: true
-    default: multitier
 
   - id: location
     name: Azure Region

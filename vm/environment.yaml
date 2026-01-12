@@ -10,7 +10,6 @@ parameters:
     name: Environment Name
     description: Unique name for your environment (lowercase alphanumeric, max 20 chars)
     type: string
-    required: true
     default: myenv
 
   - id: location
