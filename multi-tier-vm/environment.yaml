@@ -9,12 +9,14 @@ parameters:
   - id: environment_name
     name: Environment Name
     description: Name for this environment (1-20 chars, lowercase alphanumeric and hyphens)
+    type: string
     required: true
     default: multitier
 
   - id: location
     name: Azure Region
     description: Azure region for deployment
+    type: string
     required: false
     default: eastus
     allowed:
@@ -33,6 +35,7 @@ parameters:
   - id: num_tiers
     name: Number of Tiers
     description: Number of application tiers (2 for web+app, 3 for web+app+data)
+    type: integer
     required: false
     default: 3
     allowed:
@@ -42,6 +45,7 @@ parameters:
   - id: vms_per_tier
     name: VMs per Tier
     description: Number of VM replicas in each tier for load balancing (1-5)
+    type: integer
     required: false
     default: 2
     allowed:
@@ -54,6 +58,7 @@ parameters:
   - id: vm_size
     name: VM Size
     description: Azure VM size for all tier VMs
+    type: string
     required: false
     default: Standard_B2s
     allowed:
@@ -72,30 +77,35 @@ parameters:
   - id: admin_username
     name: Admin Username
     description: Username for VM administrative access via SSH
+    type: string
     required: false
     default: azureuser
 
   - id: ssh_public_key_path
     name: SSH Public Key Path
     description: Path to SSH public key file for passwordless authentication
+    type: string
     required: false
     default: ~/.ssh/id_rsa.pub
 
   - id: enable_security_baseline
     name: Enable Security Baseline
     description: Apply Azure Linux security baseline compliance to all VMs
+    type: boolean
     required: false
     default: true
 
   - id: enable_update_manager
     name: Enable Azure Update Manager v2
     description: Enable automatic patch management via Azure Update Manager v2
+    type: boolean
     required: false
     default: true
 
   - id: patch_assessment_frequency
     name: Patch Assessment Frequency
     description: How often to assess VMs for available patches
+    type: string
     required: false
     default: Weekly
     allowed:
@@ -106,5 +116,6 @@ parameters:
   - id: enable_guest_config
     name: Enable Guest Configuration
     description: Enable Azure Guest Configuration for compliance monitoring
+    type: boolean
     required: false
     default: true

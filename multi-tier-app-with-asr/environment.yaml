@@ -9,12 +9,14 @@ parameters:
   - id: environment_name
     name: Environment Name
     description: Name for this environment (1-20 chars, lowercase alphanumeric and hyphens)
+    type: string
     required: true
     default: multiapp
 
   - id: primary_location
     name: Primary Region
     description: Primary Azure region for active resources
+    type: string
     required: false
     default: eastus
     allowed:
@@ -33,6 +35,7 @@ parameters:
   - id: secondary_location
     name: Secondary Region
     description: Secondary region for ASR failover (must be different from primary)
+    type: string
     required: false
     default: westus
     allowed:
@@ -51,12 +54,14 @@ parameters:
   - id: enable_asr
     name: Enable ASR
     description: Enable Azure Site Recovery for multi-region failover capability
+    type: boolean
     required: false
     default: true
 
   - id: num_tiers
     name: Number of Tiers
     description: Number of application tiers (2 for web+app, 3 for web+app+data)
+    type: integer
     required: false
     default: 3
     allowed:
@@ -66,6 +71,7 @@ parameters:
   - id: num_instances_per_tier
     name: Instances per Tier
     description: Number of App Service instances per tier for load balancing (1-5)
+    type: integer
     required: false
     default: 2
     allowed:
@@ -78,6 +84,7 @@ parameters:
   - id: tier_sku_configs
     name: Tier SKU Configuration
     description: SQL and App Service tier configuration (Standard or Premium)
+    type: object
     required: false
     default:
       tier1:
@@ -93,16 +100,19 @@ parameters:
   - id: enable_app_insights
     name: Enable Application Insights
     description: Enable Azure Application Insights for performance monitoring
+    type: boolean
     required: false
     default: true
 
   - id: db_admin_username
     name: Database Admin Username
     description: SQL Database administrator login name (avoid reserved names like admin or sa)
+    type: string
     required: false
     default: azadmin
 
   - id: db_admin_password
     name: Database Admin Password
     description: SQL Database administrator password (8+ chars with uppercase, lowercase, number)
+    type: string
     required: true

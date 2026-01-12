@@ -9,12 +9,14 @@ parameters:
   - id: environment_name
     name: Environment Name
     description: Unique name for your environment (lowercase alphanumeric, max 20 chars)
+    type: string
     required: true
     default: myenv
 
   - id: location
     name: Azure Region
     description: Azure region where resources will be deployed
+    type: string
     required: false
     default: eastus
     allowed:
@@ -29,6 +31,7 @@ parameters:
   - id: vm_size
     name: VM Size
     description: Size of the virtual machine
+    type: string
     required: false
     default: Standard_B2s
     allowed:
@@ -42,24 +45,28 @@ parameters:
   - id: admin_username
     name: Admin Username
     description: Username for VM administrator access
+    type: string
     required: false
     default: azureuser
 
   - id: enable_security_baseline
     name: Enable Security Baseline
     description: Apply Azure Linux security baseline compliance to the VM
+    type: boolean
     required: false
     default: true
 
   - id: enable_update_manager
     name: Enable Azure Update Manager v2
     description: Enable automatic patch management via Azure Update Manager v2
+    type: boolean
     required: false
     default: true
 
   - id: patch_assessment_frequency
     name: Patch Assessment Frequency
     description: How often to assess VMs for available patches
+    type: string
     required: false
     default: Weekly
     allowed:
@@ -70,5 +77,6 @@ parameters:
   - id: enable_guest_config
     name: Enable Guest Configuration
     description: Enable Azure Guest Configuration for compliance monitoring
+    type: boolean
     required: false
     default: true
