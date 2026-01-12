@@ -2,7 +2,7 @@ name: LinuxVirtualMachine
 version: 1.0.0
 summary: Linux VM with security baseline and patch management
 description: A preconfigured Linux VM with networking, NSG, SSH access, security baseline, and Azure Update Manager v2.
-runner: "${containerRegistry}.azurecr.io/terraform-runner:latest"
+runner: "acrdemodevcenter28d1i.azurecr.io/terraform-runner:latest"
 templatePath: main.tf
 
 parameters:
