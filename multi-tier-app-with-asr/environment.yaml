@@ -115,3 +115,4 @@ parameters:
     description: SQL Database administrator password (8+ chars with uppercase, lowercase, number)
     type: string
     required: true
+    default: ""

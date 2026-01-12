@@ -53,6 +53,7 @@ parameters:
     description: Administrator password for SQL Server (8+ chars with mixed case and numbers)
     type: string
     required: true
+    default: ""
 
   - id: database_name
     name: Database Name
